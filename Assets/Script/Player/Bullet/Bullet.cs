@@ -36,14 +36,14 @@ public class Bullet : MonoBehaviour
     // 충돌 처리: 총알이 적과 충돌하면 풀로 반환
     public virtual void OnCollisionEnter2D(Collision2D collision)
     {
-        // 충돌한 오브젝트가 적이라면 (적을 식별하는 조건을 추가 가능)
+        // 충돌한 오브젝트가 적
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            // 적에게 데미지 처리 (적 스크립트에 데미지 로직이 있다고 가정)
+            // 적에게 데미지 처리
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.TakeDamage(1); // 예시로 데미지 1을 처리
+                enemy.TakeDamage(1);
             }
 
             // 총알을 풀로 반환

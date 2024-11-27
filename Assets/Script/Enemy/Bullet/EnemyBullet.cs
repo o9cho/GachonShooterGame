@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class EnemyBullet : MonoBehaviour
 {
+    public int enemyDamage = 1; // 폭발 피해
     public float speed = 3f; // 총알 속도
     public float lifetime = 5f; // 총알 생명 시간
 
@@ -16,7 +17,6 @@ public abstract class EnemyBullet : MonoBehaviour
 
     void Update()
     {
-        // 이동 처리
         Move();
 
         // 시간이 다 되면 제거
@@ -44,6 +44,6 @@ public abstract class EnemyBullet : MonoBehaviour
         DestroyBullet();
     }
 
-    // 충돌 처리 (각각의 파생 클래스에서 구현 필요)
-    public abstract void OnCollisionEnter2D(Collision2D collision);
+    // 충돌 처리
+    public abstract void OnTriggerEnter2D(Collider2D collision);
 }

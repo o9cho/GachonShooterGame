@@ -7,20 +7,40 @@ public class Turret : MonoBehaviour
     public string playerTag = "Player";
     private Transform player; // 플레이어의 Transform
     public float rotationSpeed = 5f; // 회전 속도
+    public float searchInterval = 10f; // 플레이어를 찾는 간격 (초)
 
     void Start()
     {
-        // 태그로 플레이어를 찾아 Transform 할당
-        player = GameObject.FindGameObjectWithTag(playerTag).transform;
+        // 10초마다 한 번씩 플레이어를 찾도록 설정
+        InvokeRepeating("FindPlayer", 0f, searchInterval);
+    }
+
+    // 일정 간격마다 플레이어를 찾는 함수
+    void FindPlayer()
+    {
+        player = GameObject.FindGameObjectWithTag(playerTag)?.transform;
+
+        if (player == null)
+        {
+            Debug.LogWarning("플레이어 트랜스폼이 할당되지 않았습니다.");
+        }
     }
 
     void Update()
     {
-        RotateTurret();
+        if (player != null)
+        {
+            RotateTurret();
+        }
     }
 
     void RotateTurret()
     {
+        if (player == null)
+        {
+            return;
+        }
+
         // 플레이어 위치를 향하는 벡터 계산
         Vector2 direction = (player.position - transform.position).normalized;
 

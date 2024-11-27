@@ -4,22 +4,25 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public int health = 3; // 적의 체력
+    [Header("HP")]
+    public int health; // 적의 체력
 
-    // 적이 데미지를 받을 때 호출되는 메서드
     public void TakeDamage(int damage)
     {
         health -= damage;
+        Debug.Log($"플레이어가 {damage}만큼의 피해를 주었습니다. 현재 체력: {health}");
+
         if (health <= 0)
         {
-            Die(); // 체력이 0 이하가 되면 죽음 처리
+            Die(); // 체력이 0 이하가 되면 Die 호출
         }
     }
 
-    // 적이 죽을 때 호출되는 메서드
     void Die()
     {
-        // 적의 죽음 처리 (예: 애니메이션, 점수 추가 등)
-        Destroy(gameObject); // 예시
+        Destroy(gameObject);
     }
+
+
+
 }
