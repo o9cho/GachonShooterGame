@@ -220,7 +220,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  screenBounds: {x: 0, y: 0}
 --- !u!61 &1435822237277419878
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -370,4 +369,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cecb8c420fd6ec488cfa81871e5218f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
+  maxHealth: 1000

@@ -1,19 +1,31 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Movable
 {
-    public float speed = 5f; // 플레이어 이동 속도
-    public Vector2 screenBounds; // 화면 경계 값
-
     private Vector2 playerSize;
+    private Vector2 screenBounds;
 
     void Start()
     {
-        // 플레이어의 크기를 계산
+        if (GetComponent<SpriteRenderer>() == null)
+        {
+            Debug.LogError("SpriteRenderer가 이 오브젝트에 없습니다!");
+        }
+        else
+        {
+            CalculateBounds();
+        }
+    }
+
+    protected override void CalculateBounds()
+    {
+        // 플레이어 크기 계산
         playerSize = GetComponent<SpriteRenderer>().bounds.size / 2;
-        // 화면 경계 계산 (카메라 크기 기반)
+
+        // 카메라의 화면 경계 계산
         Camera mainCamera = Camera.main;
-        screenBounds = new Vector2(
+        screenBounds = new Vector2
+        (
             mainCamera.aspect * mainCamera.orthographicSize,
             mainCamera.orthographicSize
         );
@@ -21,23 +33,22 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        MovePlayer();
-    }
-
-    private void MovePlayer()
-    {
-        // 키 입력
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-
-        // 이동 계산
         Vector3 moveDirection = new Vector3(horizontal, vertical, 0f);
-        transform.Translate(moveDirection * speed * Time.deltaTime);
+
+        Move(moveDirection);
 
         // 화면 경계 체크
-        float clampedX = Mathf.Clamp(transform.position.x, -screenBounds.x + playerSize.x, screenBounds.x - playerSize.x);
-        float clampedY = Mathf.Clamp(transform.position.y, -screenBounds.y + playerSize.y, screenBounds.y - playerSize.y);
+        ClampToScreenBounds();
+    }
 
-        transform.position = new Vector3(clampedX, clampedY, transform.position.z);
+    private void ClampToScreenBounds()
+    {
+        transform.position = new Vector3(
+            Mathf.Clamp(transform.position.x, -screenBounds.x + playerSize.x, screenBounds.x - playerSize.x),
+            Mathf.Clamp(transform.position.y, -screenBounds.y + playerSize.y, screenBounds.y - playerSize.y),
+            transform.position.z
+        );
     }
 }
