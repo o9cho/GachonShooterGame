@@ -1,51 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using TMPro; 
 
 public class StageManager : MonoBehaviour
 {
-    public StageData[] stages; // 여러 스테이지 데이터 배열
-    public TextMeshProUGUI stageUIText; // 스테이지 번호를 표시할 텍스트 UI
+    public StageData[] stages; // 모든 스테이지 데이터 배열
+    public EnemyManager enemyManager; // EnemyManager 참조
+    public TMP_Text stageText; // TextMeshPro
 
-    private int currentStageIndex = 0; // 현재 진행 중인 스테이지 인덱스
-    private StageData currentStage;
+    private int currentStageIndex = 0; // 현재 스테이지 인덱스
 
-    void Start()
+    private void Start()
     {
-        // 첫 번째 스테이지 로드
-        LoadStage(currentStageIndex);
+        LoadStage(currentStageIndex); // 시작 시 첫 스테이지 로드
     }
 
-    void LoadStage(int stageIndex)
+    private void Update()
     {
-        currentStage = stages[stageIndex]; // 스테이지 정보 가져오기
-        Debug.Log($"Stage {currentStage.stageNumber} 시작!");
-
-        // TMP 텍스트 UI에 스테이지 번호 표시
-        if (stageUIText != null)
+        if (enemyManager.AreAllEnemiesDefeated())
         {
-            stageUIText.text = $"Stage {currentStage.stageNumber}";
-        }
-
-        // 몬스터 스폰
-        foreach (GameObject monsterPrefab in currentStage.Enemys)
-        {
-            Instantiate(monsterPrefab, Vector3.zero, Quaternion.identity); // 몬스터 프리팹을 (0,0,0) 위치에 스폰
+            NextStage();
         }
     }
 
-    // 스테이지 진행 후 다음 스테이지
-    public void NextStage()
+    private void NextStage()
     {
-        if (currentStageIndex < stages.Length - 1)
+        currentStageIndex++;
+        if (currentStageIndex < stages.Length)
         {
-            currentStageIndex++;
-            LoadStage(currentStageIndex);
+            LoadStage(currentStageIndex); // 다음 스테이지 로드
         }
         else
         {
-            Debug.Log("게임 클리어");
+            // 모든 스테이지 클리어 시 처리 로직
+            Debug.Log("모든 스테이지를 클리어했습니다!");
+            stageText.text = "모든 스테이지 클리어!";
         }
+    }
+
+    private void LoadStage(int stageIndex)
+    {
+        StageData stageData = stages[stageIndex];
+        enemyManager.SpawnEnemies(stageData.Enemys);
+        stageText.text = "Stage: " + stageData.stageNumber; // 스테이지 번호 텍스트 업데이트
     }
 }

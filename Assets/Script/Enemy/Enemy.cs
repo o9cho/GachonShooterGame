@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour
     [Header("HP")]
     public int health; // 적의 체력
 
+    public EnemyManager enemyManager;
+
     public void TakeDamage(int damage)
     {
         health -= damage;
@@ -20,6 +22,6 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        Destroy(gameObject);
+        Destroy(gameObject); // 적 객체 제거
     }
 }

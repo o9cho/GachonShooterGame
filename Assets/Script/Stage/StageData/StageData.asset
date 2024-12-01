@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageNumber: 1
   Enemys:
-  - {fileID: 2067330750386953845, guid: d1d72a1c16895cd46b2be8870ca4a320, type: 3}
-  - {fileID: 2067330750386953845, guid: a09ec93fb1a569b43834e2210445c1cd, type: 3}
+  - {fileID: 2660671942160762751, guid: b838a3d6c3392ec4fbac7b16480016f4, type: 3}
+  - {fileID: 2660671942160762751, guid: 90cde6f72946da64d83182a6db6d4495, type: 3}
   - {fileID: 8621993096922959658, guid: be27337cda4511c4e867db450d2aa885, type: 3}
